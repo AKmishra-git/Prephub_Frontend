@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation"
 import { BookOpen } from "lucide-react"
 import { useEffect, useState } from "react"
 
+
 type User = {
   name: string
   email: string
