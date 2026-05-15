@@ -48,11 +48,14 @@ export default function DashboardPage() {
         const userRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/prep/me`, {
           credentials: "include",
         })
+      
+
         if (!userRes.ok) {
           router.push("/login")
           return
         }
         const userData = await userRes.json()
+        console.log("User data:", userData)
         setUserName(userData.user.name.split(" ")[0])
 
         // fetch dashboard stats
