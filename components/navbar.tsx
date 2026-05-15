@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation"
 import { BookOpen } from "lucide-react"
 import { useEffect, useState } from "react"
 
-
 type User = {
   name: string
   email: string
@@ -16,7 +15,6 @@ export function Navbar() {
 
   const [user, setUser] = useState<User | null>(null)
 
-  // 🔹 fetch logged-in user
   useEffect(() => {
     async function fetchUser() {
       try {
@@ -36,7 +34,6 @@ export function Navbar() {
     fetchUser()
   }, [])
 
-  // 🔹 logout function
   async function handleLogout() {
     await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/prep/logout`, {
       method: "POST",
@@ -49,8 +46,8 @@ export function Navbar() {
   return (
     <nav className="sticky top-0 z-50 border-b border-border/50 bg-gray-950/80 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-        
-        {/* Left Side - Logo */}
+
+        {/* Logo */}
         <Link
           href="/"
           className="flex items-center gap-2.5 transition-opacity hover:opacity-80"
@@ -63,9 +60,9 @@ export function Navbar() {
           </span>
         </Link>
 
-        {/* Right Side - Navigation */}
+        {/* Right Side */}
         <div className="flex items-center gap-1">
-          
+
           {/* Home */}
           <Link
             href="/"
@@ -92,7 +89,19 @@ export function Navbar() {
             Subjects
           </Link>
 
-          {/* 🔥 USER UI */}
+          {/* Dashboard */}
+          <Link
+            href="/dashboard"
+            className={`rounded-lg px-3.5 py-2 text-sm font-medium transition-colors ${
+              pathname === "/dashboard"
+                ? "bg-secondary text-foreground"
+                : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            Dashboard
+          </Link>
+
+          {/* User UI */}
           {user ? (
             <div className="flex items-center gap-3 ml-2">
               <span className="text-sm font-medium text-white">
@@ -108,7 +117,6 @@ export function Navbar() {
             </div>
           ) : (
             <>
-              {/* Login */}
               <Link
                 href="/login"
                 className={`rounded-lg px-3.5 py-2 text-sm font-medium transition-colors ${
@@ -120,7 +128,6 @@ export function Navbar() {
                 Login
               </Link>
 
-              {/* Register */}
               <Link
                 href="/register"
                 className={`rounded-lg px-3.5 py-2 text-sm font-medium transition-colors ${
