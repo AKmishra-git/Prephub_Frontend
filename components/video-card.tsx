@@ -8,10 +8,19 @@ interface VideoCardProps {
   url: string
   duration?: string
   subject: string
-  leetcodeUrl?: string   // optional — button hidden when absent
 }
 
-export function VideoCard({ id, title, url, duration, subject, leetcodeUrl }: VideoCardProps) {
+function toLeetcodeUrl(title: string): string {
+  return `https://leetcode.com/problems/${title
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, "")
+    .trim()
+    .replace(/\s+/g, "-")}/`
+}
+
+export function VideoCard({ id, title, url, duration, subject }: VideoCardProps) {
+
+  const leetcodeUrl = toLeetcodeUrl(title)   // always generated from title
 
   async function markWatched(videoId: string) {
     try {
@@ -68,18 +77,16 @@ export function VideoCard({ id, title, url, duration, subject, leetcodeUrl }: Vi
       {/* RIGHT SIDE BUTTONS */}
       <div className="flex shrink-0 items-center gap-2">
 
-        {/* Solve on LeetCode — only shown when leetcodeUrl is provided */}
-        {leetcodeUrl && (
-          <a
-            href={leetcodeUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 rounded-md border border-orange-400 px-3 py-1 text-xs text-orange-400 hover:bg-orange-400/10 transition"
-          >
-            <Code2 className="h-3.5 w-3.5" />
-            Solve
-          </a>
-        )}
+        {/* Solve — always visible, URL auto-generated from title */}
+        <a
+          href={leetcodeUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-1.5 rounded-md border border-orange-400 px-3 py-1 text-xs text-orange-400 hover:bg-orange-400/10 transition"
+        >
+          <Code2 className="h-3.5 w-3.5" />
+          Solve
+        </a>
 
         <button
           onClick={() => markWatched(id)}
